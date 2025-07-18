@@ -2,6 +2,7 @@ package pet.project.mtls.auth;
 
 import static java.util.Map.entry;
 
+import java.util.Collections;
 import java.util.List;
 import java.util.Map;
 
@@ -20,8 +21,9 @@ public class MTLSAuthenticationManager implements ReactiveAuthenticationManager{
 	//TODO: this hardcoded map should be replaced by a call of your db. Be care to contents of MTLSPrincipal is not yet sanitized!
 	private static final Map<String, List<GrantedAuthority>> AUTHORIZED_ENTITIES = Map.ofEntries(
 			entry("JolanAccounting", List.of( new SimpleGrantedAuthority("BILLING"))),
-			entry("EditSales", List.of( new SimpleGrantedAuthority("BILLING"), new SimpleGrantedAuthority("WMS"))),
-			entry("PeterStore", List.of( new SimpleGrantedAuthority("BILLING"), new SimpleGrantedAuthority("WMS"))));
+			entry("GittaSales", List.of( new SimpleGrantedAuthority("BILLING"), new SimpleGrantedAuthority("WMS"))),
+			entry("BoldizsarStore", List.of( new SimpleGrantedAuthority("BILLING"), new SimpleGrantedAuthority("WMS"))),
+			entry("TasziloSales", Collections.emptyList()));
 	
 	@Override
 	public Mono<Authentication> authenticate(Authentication authentication) {

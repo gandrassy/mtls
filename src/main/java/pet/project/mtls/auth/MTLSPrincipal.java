@@ -1,9 +1,10 @@
 package pet.project.mtls.auth;
 
 import java.io.Serializable;
-import java.security.Principal;
 
-public class MTLSPrincipal implements Principal, Serializable{
+import org.springframework.security.core.AuthenticatedPrincipal;
+
+public class MTLSPrincipal implements AuthenticatedPrincipal, Serializable {
 
 	private static final long serialVersionUID = 2496156115460314533L;
 
@@ -26,9 +27,9 @@ public class MTLSPrincipal implements Principal, Serializable{
 		return this.unit;
 	}
 
-	public String getIp() {
-		return this.ip;
-	}
+    public String getIpAddress() {
+        return this.ip;
+    }
 	
 	@Override
 	public String toString() {

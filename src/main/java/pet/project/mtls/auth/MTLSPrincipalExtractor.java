@@ -41,7 +41,7 @@ public class MTLSPrincipalExtractor implements X509PrincipalExtractor {
 		}	
 	}
 	
-	private String getIpAddress() {
+	String getIpAddress() {
 		RequestAttributes attributes = RequestContextHolder.getRequestAttributes();
 		Object ipAddress = (attributes == null) ? null : attributes.getAttribute("X-Forwarded-For", 0);
 		return (ipAddress == null) ? null : ipAddress.toString();
