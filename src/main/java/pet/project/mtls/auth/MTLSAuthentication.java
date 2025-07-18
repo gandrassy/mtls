@@ -1,6 +1,5 @@
 package pet.project.mtls.auth;
 
-import java.io.Serializable;
 import java.util.Collection;
 
 import org.springframework.security.authentication.AbstractAuthenticationToken;
