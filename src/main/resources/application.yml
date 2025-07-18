@@ -1,0 +1,10 @@
+spring:
+  application:
+    name: mtls
+  profiles:
+    active: dev
+server:
+  port: 8080
+  ssl:
+    trust-store: ${java.home}/lib/security/cacerts
+    trust-store-password: changeit
