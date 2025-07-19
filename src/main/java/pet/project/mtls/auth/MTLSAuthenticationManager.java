@@ -20,16 +20,16 @@ public class MTLSAuthenticationManager implements ReactiveAuthenticationManager{
 
 	//TODO: this hardcoded map should be replaced by a call of your db. Be care to contents of MTLSPrincipal is not yet sanitized!
 	private static final Map<String, List<GrantedAuthority>> AUTHORIZED_ENTITIES = Map.ofEntries(
-			entry("JolanAccounting", List.of( new SimpleGrantedAuthority("BILLING"))),
-			entry("GittaSales", List.of( new SimpleGrantedAuthority("BILLING"), new SimpleGrantedAuthority("WMS"))),
-			entry("BoldizsarStore", List.of( new SimpleGrantedAuthority("BILLING"), new SimpleGrantedAuthority("WMS"))),
+			entry("JolanAccounting", List.of( new SimpleGrantedAuthority("ROLE_BILLING"))),
+			entry("GittaSales", List.of( new SimpleGrantedAuthority("ROLE_BILLING"), new SimpleGrantedAuthority("ROLE_WAREHOUSING"))),
+			entry("BoldizsarStore", List.of( new SimpleGrantedAuthority("ROLE_BILLING"), new SimpleGrantedAuthority("ROLE_WAREHOUSING"))),
 			entry("TasziloSales", Collections.emptyList()));
 
 	@Override
 	public Mono<Authentication> authenticate(Authentication authentication) {
 		return Mono.create(sink -> {
 			MTLSPrincipal principal = (MTLSPrincipal) authentication.getPrincipal();
-			final String key = principal.getName().concat(principal.getUnit());
+			final String key = principal.getName().concat(principal.getDepartment());
 			if (!AUTHORIZED_ENTITIES.containsKey(key))
 				sink.error(new UsernameNotFoundException("Your certificate is not whitelisted yet."));
 			List<GrantedAuthority> authorities = AUTHORIZED_ENTITIES.get(key);

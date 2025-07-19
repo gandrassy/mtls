@@ -28,7 +28,7 @@ class MTLSPrincipalTests {
 	void testMTLSPrincipalCreation() {
 		MTLSPrincipal principal = new MTLSPrincipal(name, organizationUnit, ipAddress);
 		assertSame(name, principal.getName());
-		assertSame(organizationUnit, principal.getUnit());
+		assertSame(organizationUnit, principal.getDepartment());
 		assertSame(ipAddress, principal.getIpAddress());
 	}
 
@@ -36,7 +36,7 @@ class MTLSPrincipalTests {
 	void testMTLSPrincipalCreationByNoIp() {
 		MTLSPrincipal principal = new MTLSPrincipal("testName", "testOrganizationUnit", null);
 		assertSame("testName", principal.getName());
-		assertSame("testOrganizationUnit", principal.getUnit());
+		assertSame("testOrganizationUnit", principal.getDepartment());
 		assertEquals("unknown", principal.getIpAddress());
 	}
 
@@ -50,7 +50,7 @@ class MTLSPrincipalTests {
 	@Test
 	void testMTLSPrincipalHashCode() {
 		MTLSPrincipal principal1 = new MTLSPrincipal("testName", "testOrganizationUnit", "127.0.0.1");
-		int expectedHashCode = (principal1.getName().hashCode() * 31 + principal1.getUnit().hashCode()) * 31 + principal1.getIpAddress().hashCode();
+		int expectedHashCode = (principal1.getName().hashCode() * 31 + principal1.getDepartment().hashCode()) * 31 + principal1.getIpAddress().hashCode();
 		assertEquals(expectedHashCode, principal1.hashCode());
 	}
 

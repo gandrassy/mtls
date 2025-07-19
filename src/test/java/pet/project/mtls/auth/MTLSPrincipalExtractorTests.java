@@ -46,7 +46,7 @@ class MTLSPrincipalExtractorTests {
 		assertEquals(MTLSPrincipal.class, result.getClass());
 		MTLSPrincipal principal = (MTLSPrincipal) result;
 		assertEquals("TestUser", principal.getName());
-		assertEquals("TestOrg", principal.getUnit());
+		assertEquals("TestOrg", principal.getDepartment());
 		assertEquals("127.0.0.1", principal.getIpAddress());        
 	}
 

@@ -9,12 +9,12 @@ public class MTLSPrincipal implements AuthenticatedPrincipal, Serializable {
 	private static final long serialVersionUID = 2496156115460314533L;
 
 	private final String name;
-	private final String unit;
+	private final String department;
 	private final String ip;
 
 	public MTLSPrincipal(String cn, String ou, String ip) {
 		this.name = cn;
-		this.unit = ou;
+		this.department = ou;
 		this.ip = (ip == null) ? "unknown" : ip;
 	}
 
@@ -23,8 +23,8 @@ public class MTLSPrincipal implements AuthenticatedPrincipal, Serializable {
 		return this.name;
 	}
 
-	public String getUnit() {
-		return this.unit;
+	public String getDepartment() {
+		return this.department;
 	}
 
 	public String getIpAddress() {
@@ -33,12 +33,12 @@ public class MTLSPrincipal implements AuthenticatedPrincipal, Serializable {
 
 	@Override
 	public String toString() {
-		return String.format("Principal{name=%s, org.unit=%s, ip=%s}", this.name, this.unit, this.ip);
+		return String.format("Principal{name=%s, org.unit=%s, ip=%s}", this.name, this.department, this.ip);
 	}
 
 	@Override
 	public int hashCode() {
-		return (this.name.hashCode()*31 + this.unit.hashCode())*31 + this.ip.hashCode();
+		return (this.name.hashCode()*31 + this.department.hashCode())*31 + this.ip.hashCode();
 	}
 	
 	@Override
@@ -46,7 +46,7 @@ public class MTLSPrincipal implements AuthenticatedPrincipal, Serializable {
 		if (this == obj) return true;
 		if (!(obj instanceof MTLSPrincipal)) return false;
 		MTLSPrincipal other = (MTLSPrincipal) obj;
-		return this.name.equals(other.name) && this.unit.equals(other.unit) && this.ip.equals(other.ip);
+		return this.name.equals(other.name) && this.department.equals(other.department) && this.ip.equals(other.ip);
 	}
 
 }

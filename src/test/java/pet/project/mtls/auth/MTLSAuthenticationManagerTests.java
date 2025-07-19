@@ -31,7 +31,7 @@ class MTLSAuthenticationManagerTests {
 			assertEquals(MTLSAuthentication.class, result.getClass());
 			MTLSAuthentication authentication = (MTLSAuthentication) result;
 			assertEquals("Gitta", authentication.getName(), "Expected username to be Gitta");
-			assertEquals("Sales", ((MTLSPrincipal) authentication.getPrincipal()).getUnit(), "Expected department to be Sales");
+			assertEquals("Sales", ((MTLSPrincipal) authentication.getPrincipal()).getDepartment(), "Expected department to be Sales");
 			return authentication.getAuthorities().size() == 2; // Assuming 2 authorities for Gitta from Sales department
 		})
 		.expectComplete()
