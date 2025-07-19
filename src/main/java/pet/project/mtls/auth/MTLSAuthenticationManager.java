@@ -24,7 +24,7 @@ public class MTLSAuthenticationManager implements ReactiveAuthenticationManager{
 			entry("GittaSales", List.of( new SimpleGrantedAuthority("BILLING"), new SimpleGrantedAuthority("WMS"))),
 			entry("BoldizsarStore", List.of( new SimpleGrantedAuthority("BILLING"), new SimpleGrantedAuthority("WMS"))),
 			entry("TasziloSales", Collections.emptyList()));
-	
+
 	@Override
 	public Mono<Authentication> authenticate(Authentication authentication) {
 		return Mono.create(sink -> {
@@ -32,11 +32,11 @@ public class MTLSAuthenticationManager implements ReactiveAuthenticationManager{
 			final String key = principal.getName().concat(principal.getUnit());
 			if (!AUTHORIZED_ENTITIES.containsKey(key))
 				sink.error(new UsernameNotFoundException("Your certificate is not whitelisted yet."));
-		    List<GrantedAuthority> authorities = AUTHORIZED_ENTITIES.get(key);
-		    if (authorities == null || authorities.isEmpty())
-		    	sink.error(new UsernameNotFoundException("Your certificate is whitelisted, but your authorities is not set yet."));
-		    sink.success(new MTLSAuthentication(principal, authorities));
+			List<GrantedAuthority> authorities = AUTHORIZED_ENTITIES.get(key);
+			if (authorities == null || authorities.isEmpty())
+				sink.error(new UsernameNotFoundException("Your certificate is whitelisted, but your authorities is not set yet."));
+			sink.success(new MTLSAuthentication(principal, authorities));
 		});
 	}
-	
+
 }

@@ -20,15 +20,15 @@ public class MTLSAuthenticationTests {
 		assertTrue(AbstractAuthenticationToken.class.isAssignableFrom(MTLSAuthentication.class), "MTLSAuthentication should extend AbstractAuthenticationToken.");
 		assertNotNull(ReflectionTestUtils.getField(MTLSAuthentication.class, "serialVersionUID"), "MTLSAuthentication should have a serialVersionUID field, due superclass implements Serializable.");
 	}
-	
-    @Test
-    public void testMTLSAuthenticationCreation() {
-    	MTLSPrincipal principal = new MTLSPrincipal("testName", "testOrganizationUnit", "127.0.0.1");
-    	List<GrantedAuthority> authorities = List.of(new SimpleGrantedAuthority("ROLE_USER"));
-        MTLSAuthentication auth = new MTLSAuthentication(principal, authorities);
-        assertSame(principal, auth.getPrincipal());
-        assertEquals(authorities, auth.getAuthorities());
-        assertTrue(auth.isAuthenticated(), "Authentication should be marked as authenticated.");
-    }
+
+	@Test
+	public void testMTLSAuthenticationCreation() {
+		MTLSPrincipal principal = new MTLSPrincipal("testName", "testOrganizationUnit", "127.0.0.1");
+		List<GrantedAuthority> authorities = List.of(new SimpleGrantedAuthority("ROLE_USER"));
+		MTLSAuthentication auth = new MTLSAuthentication(principal, authorities);
+		assertSame(principal, auth.getPrincipal());
+		assertEquals(authorities, auth.getAuthorities());
+		assertTrue(auth.isAuthenticated(), "Authentication should be marked as authenticated.");
+	}
 
 }

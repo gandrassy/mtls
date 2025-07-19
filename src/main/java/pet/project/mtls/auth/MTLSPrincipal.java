@@ -10,14 +10,14 @@ public class MTLSPrincipal implements AuthenticatedPrincipal, Serializable {
 
 	private final String name;
 	private final String unit;
-    private final String ip;
-	
-    public MTLSPrincipal(String cn, String ou, String ip) {
-    	this.name = cn;
-    	this.unit = ou;
-    	this.ip = (ip == null) ? "unknown" : ip;
-    }
-    
+	private final String ip;
+
+	public MTLSPrincipal(String cn, String ou, String ip) {
+		this.name = cn;
+		this.unit = ou;
+		this.ip = (ip == null) ? "unknown" : ip;
+	}
+
 	@Override
 	public String getName() {
 		return this.name;
@@ -27,18 +27,18 @@ public class MTLSPrincipal implements AuthenticatedPrincipal, Serializable {
 		return this.unit;
 	}
 
-    public String getIpAddress() {
-        return this.ip;
-    }
-	
+	public String getIpAddress() {
+		return this.ip;
+	}
+
 	@Override
 	public String toString() {
 		return String.format("Principal{name=%s, org.unit=%s, ip=%s}", this.name, this.unit, this.ip);
 	}
-	
+
 	@Override
 	public int hashCode() {
 		return (this.name.hashCode()*31 + this.unit.hashCode())*31 + this.ip.hashCode();
 	}
-	
+
 }
