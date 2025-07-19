@@ -33,7 +33,7 @@ public class MTLSPrincipal implements AuthenticatedPrincipal, Serializable {
 
 	@Override
 	public String toString() {
-		return String.format("Principal{name=%s, org.unit=%s, ip=%s}", this.name, this.department, this.ip);
+		return String.format("Principal{name=%s, department=%s, ip=%s}", this.name, this.department, this.ip);
 	}
 
 	@Override

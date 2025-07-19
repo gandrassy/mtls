@@ -43,7 +43,7 @@ class MTLSPrincipalTests {
 	@Test
 	void testMTLSPrincipalToString() {
 		MTLSPrincipal principal = new MTLSPrincipal("testName", "testOrganizationUnit", "127.0.0.1");
-		String expectedString = "Principal{name=testName, org.unit=testOrganizationUnit, ip=127.0.0.1}";
+		String expectedString = "Principal{name=testName, department=testOrganizationUnit, ip=127.0.0.1}";
 		assertEquals(expectedString, principal.toString());
 	}
 
