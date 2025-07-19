@@ -27,5 +27,4 @@ public class MTLSAuthentication extends AbstractAuthenticationToken {
 		return this.principal;
 	}
 	
-	
 }

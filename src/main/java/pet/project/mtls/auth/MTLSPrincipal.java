@@ -40,5 +40,13 @@ public class MTLSPrincipal implements AuthenticatedPrincipal, Serializable {
 	public int hashCode() {
 		return (this.name.hashCode()*31 + this.unit.hashCode())*31 + this.ip.hashCode();
 	}
+	
+	@Override
+	public boolean equals(Object obj) {
+		if (this == obj) return true;
+		if (!(obj instanceof MTLSPrincipal)) return false;
+		MTLSPrincipal other = (MTLSPrincipal) obj;
+		return this.name.equals(other.name) && this.unit.equals(other.unit) && this.ip.equals(other.ip);
+	}
 
 }

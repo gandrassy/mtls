@@ -1,8 +1,6 @@
 package pet.project.mtls.auth;
 
-import static org.junit.jupiter.api.Assertions.assertDoesNotThrow;
 import static org.junit.jupiter.api.Assertions.assertEquals;
-import static org.junit.jupiter.api.Assertions.assertThrows;
 import static org.junit.jupiter.api.Assertions.assertTrue;
 import static org.mockito.Mockito.mock;
 import static org.mockito.Mockito.when;
@@ -12,7 +10,9 @@ import org.springframework.security.authentication.ReactiveAuthenticationManager
 import org.springframework.security.core.Authentication;
 import org.springframework.security.core.userdetails.UsernameNotFoundException;
 
-public class MTLSAuthenticationManagerTests {
+import reactor.test.StepVerifier;
+
+class MTLSAuthenticationManagerTests {
 
 	@Test
 	void classDeclarationsTest() {
@@ -22,32 +22,43 @@ public class MTLSAuthenticationManagerTests {
 	//TODO: these test should be modified when the authorities are loaded from a database or other source.
 
 	@Test
-	public void testAuthenticationManagerSuccess() {
+	void testAuthenticationManagerSuccess() {
 		MTLSAuthenticationManager manager = new MTLSAuthenticationManager();
 		Authentication auth = mock(Authentication.class);
 		when(auth.getPrincipal()).thenReturn(new MTLSPrincipal("Gitta", "Sales", "127.0.0.1"));	
-		Authentication result = assertDoesNotThrow(() -> manager.authenticate(auth).block());
-		assertEquals(MTLSAuthentication.class, result.getClass());
-		MTLSAuthentication mtlsAuth = (MTLSAuthentication) result;
-		assertEquals(2, mtlsAuth.getAuthorities().size(), "Expected 2 authorities for Gitta from Sales department");
+		StepVerifier.create(manager.authenticate(auth))
+		.expectNextMatches(result -> {
+			assertEquals(MTLSAuthentication.class, result.getClass());
+			MTLSAuthentication authentication = (MTLSAuthentication) result;
+			assertEquals("Gitta", authentication.getName(), "Expected username to be Gitta");
+			assertEquals("Sales", ((MTLSPrincipal) authentication.getPrincipal()).getUnit(), "Expected department to be Sales");
+			return authentication.getAuthorities().size() == 2; // Assuming 2 authorities for Gitta from Sales department
+		})
+		.expectComplete()
+		.verify();
 	}
 
 	@Test
-	public void testAuthenticationManagerNotRegisteredYet() {
+	void testAuthenticationManagerNotRegisteredYet() {
 		MTLSAuthenticationManager manager = new MTLSAuthenticationManager();
 		Authentication auth = mock(Authentication.class);
 		when(auth.getPrincipal()).thenReturn(new MTLSPrincipal("Vilma", "Delivery", "127.0.0.1"));	
-		UsernameNotFoundException exception = assertThrows(UsernameNotFoundException.class, () -> manager.authenticate(auth).block());
-		assertEquals("Your certificate is not whitelisted yet.", exception.getMessage());
+		StepVerifier.create(manager.authenticate(auth))
+		.expectErrorMatches(throwable -> throwable instanceof UsernameNotFoundException &&
+				throwable.getMessage().equals("Your certificate is not whitelisted yet."))
+		.verify();
 	}
 
 	@Test
-	public void testAuthenticationManagerNoGrantedAuthorites() {
+	void testAuthenticationManagerNoGrantedAuthorites() {
 		MTLSAuthenticationManager manager = new MTLSAuthenticationManager();
 		Authentication auth = mock(Authentication.class);
 		when(auth.getPrincipal()).thenReturn(new MTLSPrincipal("Taszilo", "Sales", "127.0.0.1"));	
-		UsernameNotFoundException exception = assertThrows(UsernameNotFoundException.class, () -> manager.authenticate(auth).block());
-		assertEquals("Your certificate is whitelisted, but your authorities is not set yet.", exception.getMessage());
+
+		StepVerifier.create(manager.authenticate(auth))
+		.expectErrorMatches(throwable -> throwable instanceof UsernameNotFoundException &&
+				throwable.getMessage().equals("Your certificate is whitelisted, but your authorities is not set yet."))
+		.verify();
 	}
 
 

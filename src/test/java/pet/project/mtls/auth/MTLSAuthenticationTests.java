@@ -13,7 +13,7 @@ import org.springframework.security.core.GrantedAuthority;
 import org.springframework.security.core.authority.SimpleGrantedAuthority;
 import org.springframework.test.util.ReflectionTestUtils;
 
-public class MTLSAuthenticationTests {
+class MTLSAuthenticationTests {
 
 	@Test
 	void classDeclarationsTest() {
@@ -22,7 +22,7 @@ public class MTLSAuthenticationTests {
 	}
 
 	@Test
-	public void testMTLSAuthenticationCreation() {
+	void testMTLSAuthenticationCreation() {
 		MTLSPrincipal principal = new MTLSPrincipal("testName", "testOrganizationUnit", "127.0.0.1");
 		List<GrantedAuthority> authorities = List.of(new SimpleGrantedAuthority("ROLE_USER"));
 		MTLSAuthentication auth = new MTLSAuthentication(principal, authorities);

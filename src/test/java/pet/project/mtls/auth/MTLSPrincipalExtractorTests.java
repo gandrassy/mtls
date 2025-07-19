@@ -2,7 +2,6 @@ package pet.project.mtls.auth;
 
 import static org.junit.jupiter.api.Assertions.assertDoesNotThrow;
 import static org.junit.jupiter.api.Assertions.assertEquals;
-import static org.junit.jupiter.api.Assertions.assertNotNull;
 import static org.junit.jupiter.api.Assertions.assertNull;
 import static org.junit.jupiter.api.Assertions.assertThrows;
 import static org.junit.jupiter.api.Assertions.assertTrue;
@@ -99,8 +98,8 @@ class MTLSPrincipalExtractorTests {
 		RequestAttributes attributes = mock(RequestAttributes.class);
 		when(attributes.getAttribute("X-Forwarded-For", 0)).thenReturn((Object)"127.0.0.1");
 		try (MockedStatic<RequestContextHolder> requestContextHolder = mockStatic(RequestContextHolder.class) ) {
-			requestContextHolder.when( () -> RequestContextHolder.getRequestAttributes()).thenReturn(attributes);
-			String ipAddress = assertDoesNotThrow(() -> extractor.getIpAddress());
+			requestContextHolder.when(RequestContextHolder::getRequestAttributes).thenReturn(attributes);
+			String ipAddress = assertDoesNotThrow(extractor::getIpAddress);
 			assertEquals("127.0.0.1", ipAddress);
 		}
 	}
@@ -109,8 +108,8 @@ class MTLSPrincipalExtractorTests {
 	void testGetIpAddressAttributesIsNull() {
 		MTLSPrincipalExtractor extractor = new MTLSPrincipalExtractor();
 		try (MockedStatic<RequestContextHolder> requestContextHolder = mockStatic(RequestContextHolder.class) ) {
-			requestContextHolder.when( () -> RequestContextHolder.getRequestAttributes()).thenReturn(null);
-			String ipAddress = assertDoesNotThrow(() -> extractor.getIpAddress());
+			requestContextHolder.when(RequestContextHolder::getRequestAttributes).thenReturn(null);
+			String ipAddress = assertDoesNotThrow(extractor::getIpAddress);
 			assertNull(ipAddress);
 		}
 	}
@@ -121,8 +120,8 @@ class MTLSPrincipalExtractorTests {
 		RequestAttributes attributes = mock(RequestAttributes.class);
 		when(attributes.getAttribute("X-Forwarded-For", 0)).thenReturn(null);
 		try (MockedStatic<RequestContextHolder> requestContextHolder = mockStatic(RequestContextHolder.class) ) {
-			requestContextHolder.when( () -> RequestContextHolder.getRequestAttributes()).thenReturn(attributes);
-			String ipAddress = assertDoesNotThrow(() -> extractor.getIpAddress());
+			requestContextHolder.when(RequestContextHolder::getRequestAttributes).thenReturn(attributes);
+			String ipAddress = assertDoesNotThrow(extractor::getIpAddress);
 			assertNull(ipAddress, "Expected null return value when X-Forwarded-For attribute is null");
 		}
 	}
